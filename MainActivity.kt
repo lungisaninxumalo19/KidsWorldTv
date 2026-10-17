@@ -1,6 +1,12 @@
 package com.kidsworldtv.app
 
 import android.os.Bundle
+import android.content.Context
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.runtime.DisposableEffect
+import androidx.media3.common.MediaItem
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.PlayerView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -28,7 +34,7 @@ private val Coral = Color(0xFFFF8066)
 private val Teal = Color(0xFF39BFA7)
 private val Yellow = Color(0xFFFFD45C)
 
-data class Lesson(val title: String, val category: String, val age: String, val emoji: String, val description: String)
+data class Lesson(val title: String, val category: String, val age: String, val emoji: String, val description: String, val videoUrl: String = "")
 
 private val lessons = listOf(
     Lesson("Meet the Alphabet", "ABC & Reading", "Ages 3–6", "🔤", "Sing along and discover letters A to Z."),
@@ -226,15 +232,19 @@ fun LessonScreen(lesson: Lesson, onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(20.dp)) {
         TextButton(onClick = onBack) { Text("← Back to lessons", color = Navy) }
         Spacer(Modifier.height(20.dp))
-        Box(
-            Modifier.fillMaxWidth().height(220.dp).background(Navy, RoundedCornerShape(24.dp)),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(lesson.emoji, fontSize = 64.sp)
-                Spacer(Modifier.height(8.dp))
-                Icon(Icons.Default.PlayArrow, contentDescription = "Video placeholder", tint = Yellow, modifier = Modifier.size(46.dp))
-                Text("VIDEO LESSON PLACEHOLDER", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+        if (lesson.videoUrl.isNotBlank()) {
+            VideoPlayer(videoUrl = lesson.videoUrl)
+        } else {
+            Box(
+                Modifier.fillMaxWidth().height(220.dp).background(Navy, RoundedCornerShape(24.dp)),
+                contentAlignment = Alignment.Center
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(lesson.emoji, fontSize = 64.sp)
+                    Spacer(Modifier.height(8.dp))
+                    Icon(Icons.Default.PlayArrow, contentDescription = "Video placeholder", tint = Yellow, modifier = Modifier.size(46.dp))
+                    Text("VIDEO NOT CONNECTED YET", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                }
             }
         }
         Spacer(Modifier.height(22.dp))
@@ -243,7 +253,7 @@ fun LessonScreen(lesson: Lesson, onBack: () -> Unit) {
         Spacer(Modifier.height(14.dp))
         Text(lesson.description, fontSize = 17.sp, color = Navy)
         Spacer(Modifier.height(20.dp))
-        Text("Next step: connect a video you own or have permission to stream.", color = Color(0xFF547087), fontSize = 14.sp)
+        Text(if (lesson.videoUrl.isBlank()) "Next step: add a licensed direct MP4 or supported streaming URL to this lesson in MainActivity.kt." else "If the video does not play, check that the URL is a direct playable video URL and that hosting permits streaming.", color = Color(0xFF547087), fontSize = 14.sp)
     }
 }
 
@@ -280,4 +290,31 @@ fun ParentScreen(onBack: () -> Unit) {
         Spacer(Modifier.height(18.dp))
         Text("Advertising is not enabled in this starter build.", color = Color(0xFF547087), fontSize = 14.sp)
     }
+}
+
+
+@Composable
+fun VideoPlayer(videoUrl: String) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val player = remember(videoUrl) {
+        ExoPlayer.Builder(context).build().apply {
+            setMediaItem(MediaItem.fromUri(videoUrl))
+            prepare()
+            playWhenReady = false
+        }
+    }
+    DisposableEffect(player) {
+        onDispose { player.release() }
+    }
+    AndroidView(
+        modifier = Modifier.fillMaxWidth().height(220.dp),
+        factory = { viewContext: Context ->
+            PlayerView(viewContext).apply {
+                this.player = player
+                useController = true
+                setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING)
+            }
+        },
+        update = { it.player = player }
+    )
 }

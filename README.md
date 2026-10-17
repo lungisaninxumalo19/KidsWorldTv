@@ -35,3 +35,8 @@ After the project is uploaded to a GitHub repository:
 4. When the run succeeds, open the run and download the `KidsWorldTV-debug-apk` artifact.
 5. Extract the downloaded artifact ZIP to find `app-debug.apk`, then open it on your Android phone to install. You may need to allow installation from that browser/file manager. Only install APKs you built or trust.
 This is a debug/testing APK, not a signed production release.
+
+## Video playback starter
+The app now includes AndroidX Media3 ExoPlayer support. Each `Lesson` has a `videoUrl` field defaulting to an empty string. To enable a lesson, add a direct URL to a video you own or are licensed to stream, for example in the relevant `Lesson(...)` declaration:
+`videoUrl = "https://your-approved-host.example/lesson.mp4"`
+That example URL is a placeholder, not a working video. Do not use a guessed URL. Hosting must allow direct playback and support HTTPS. The starter intentionally ships with no video URLs because licensing and hosting are not yet arranged.
