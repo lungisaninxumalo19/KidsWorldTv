@@ -30,4 +30,11 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer:1.5.1")
     implementation("androidx.media3:media3-ui:1.5.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
+}kotlin {
+    jvmToolchain(17)
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
 }
