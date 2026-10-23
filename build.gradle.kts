@@ -36,3 +36,12 @@ jobs:
         with:
           name: KidsWorldTV-debug-apk
           path: extracted/KidsWorldTV/app/build/outputs/apk/debug/app-debug.apk
+    buildFeatures { compose = true }
+}kotlin {
+    jvmToolchain(17)
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
+}
