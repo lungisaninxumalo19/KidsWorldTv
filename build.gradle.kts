@@ -17,6 +17,7 @@ android {
     }
 
     buildFeatures { compose = true }
+}    buildFeatures { compose = true }
 }
 
 dependencies {
@@ -38,3 +39,4 @@ tasks.withType<JavaCompile>().configureEach {
     sourceCompatibility = "17"
     targetCompatibility = "17"
 }
+  
