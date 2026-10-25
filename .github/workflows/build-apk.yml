@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Extract Android project
         run: |
@@ -36,7 +36,7 @@ jobs:
         run: gradle -p "$PROJECT_DIR" assembleDebug
 
       - name: Upload APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: KidsWorldTV-debug-apk
           path: extracted/**/app/build/outputs/apk/debug/*.apk
