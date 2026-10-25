@@ -30,7 +30,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
         with:
-          gradle-version: '8.9'
+          gradle-version: '17'
 
       - name: Build APK
         run: gradle -p "$PROJECT_DIR" assembleDebug
