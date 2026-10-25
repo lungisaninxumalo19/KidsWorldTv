@@ -41,14 +41,3 @@ jobs:
           name: KidsWorldTV-debug-apk
           path: extracted/**/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
-
-    buildFeatures { compose = true }
-}
-kotlin {
-    jvmToolchain(17)
-}
-
-tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = "17"
-    targetCompatibility = "17"
-}
