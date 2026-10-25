@@ -11,6 +11,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Extract Android project
+        run: |
+          unzip -q KidsWorldTV-Android-Starter.zip -d extracted
+          PROJECT_DIR="$(dirname "$(find extracted -name settings.gradle.kts -print -quit)")"
+          if [ ! -f "$PROJECT_DIR/settings.gradle.kts" ]; then
+            echo "Could not find settings.gradle.kts inside the ZIP."
+            exit 1
+          fi
+          echo "PROJECT_DIR=$PROJECT_DIR" >> "$GITHUB_ENV"
+
       - name: Set up Java
         uses: actions/setup-java@v4
         with:
@@ -23,11 +33,11 @@ jobs:
           gradle-version: '8.9'
 
       - name: Build APK
-        run: gradle assembleDebug
+        run: gradle -p "$PROJECT_DIR" assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: KidsWorldTV-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          path: extracted/**/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
