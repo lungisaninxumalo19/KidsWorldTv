@@ -30,7 +30,7 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v5
         with:
-          gradle-version: '17'
+          gradle-version: '1.8'
 
       - name: Build APK
         run: gradle -p "$PROJECT_DIR" assembleDebug
@@ -41,3 +41,14 @@ jobs:
           name: KidsWorldTV-debug-apk
           path: extracted/**/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+
+    buildFeatures { compose = true }
+}
+kotlin {
+    jvmToolchain(17)
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    sourceCompatibility = "17"
+    targetCompatibility = "17"
+}
