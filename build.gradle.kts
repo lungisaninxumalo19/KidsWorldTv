@@ -12,7 +12,7 @@ android {
         applicationId = "com.kidsworldtv.app"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
+        versionCode = 17
         versionName = "0.1.0"
     }
 
