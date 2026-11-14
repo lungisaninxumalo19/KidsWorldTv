@@ -13,7 +13,7 @@ jobs:
 
       - name: Extract Android project
         run: |
-          unzip -q KidsWorldTV.Android-Starter.zip -d extracted
+          unzip -q KidsWorldTV.Android-Starter(1).zip -d extracted
           PROJECT_DIR="$(dirname "$(find extracted -name settings.gradle.kts -print -quit)")"
           if [ ! -f "$PROJECT_DIR/settings.gradle.kts" ]; then
             echo "Could not find settings.gradle.kts inside the ZIP."
