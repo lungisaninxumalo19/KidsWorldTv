@@ -51,7 +51,7 @@ private val Yellow = Color(0xFFFFD45C)
 data class Lesson(val title: String, val category: String, val age: String, val emoji: String, val description: String, val videoUrl: String = "")
 
 private val lessons = listOf(
-    Lesson("Meet the Alphabet: A to Z", "ABC & Reading", "Ages 3–6", "🔤", "Watch, say, and learn the letters from A to Z.", "android.resource://com.kidsworldtv.app/raw/alphabet_lesson.mp4"),
+    Lesson("Meet the Alphabet: A to Z", "ABC & Reading", "Ages 3–6", "🔤", "Watch, say, and learn the letters from A to Z.", "android.resource://com.kidsworldtv.app/raw/alphabet_lesson"),
     Lesson("Counting from 1 to 10", "Numbers & Maths", "Ages 3–6", "🔢", "Learn to count from one to ten with friendly objects."),
     Lesson("Learn Colours", "Colours & Shapes", "Ages 2–5", "🌈", "Discover red, blue, yellow, green, and purple."),
     Lesson("Amazing Animals", "Nature & Science", "Ages 4–8", "🦁", "Meet animals and learn where they live."),
