@@ -278,7 +278,7 @@ LessonScreen(lesson = selectedLesson!!, language = language, onBack = { selected
     val isColours = lesson.title == "Learn Colours"
     if (isCounting || isColours) {
         val slides = if (isCounting) listOf(
-            Triple("1", "🍎", "ONE apple"), Triple("2", "🐥🐥", "TWO little chicks"),
+            Triple("1", "🍎", if (language == "IsiZulu") "I-apula ELILODWA" else "ONE apple"), Triple("2", "🐥🐥", if (language == "IsiZulu") "AMATSHWANE AMABILI" else "TWO little chicks"),
             Triple("3", "⭐ ⭐ ⭐", "THREE stars"), Triple("4", "🦋 🦋 🦋 🦋", "FOUR butterflies"),
             Triple("5", "🌼 🌼 🌼 🌼 🌼", "FIVE flowers"), Triple("6", "🐠 🐠 🐠 🐠 🐠 🐠", "SIX fish"),
             Triple("7", "🎈 🎈 🎈 🎈 🎈 🎈 🎈", "SEVEN balloons"), Triple("8", "🍓 🍓 🍓 🍓 🍓 🍓 🍓 🍓", "EIGHT strawberries"),
