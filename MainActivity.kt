@@ -236,11 +236,7 @@ fun KidsWorldApp() {
 }
 
 @Composable
-fun LessonScreen(
-    lesson: Lesson,
-    language: String,
-    onBack: () -> Unit
-) {
+fun LessonCard(lesson: Lesson, onClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).clickable(onClick = onClick),
         shape = RoundedCornerShape(18.dp),
