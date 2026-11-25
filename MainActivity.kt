@@ -228,7 +228,7 @@ fun KidsWorldApp() {
                     }
                     if (visibleLessons.isEmpty()) {
                         item {
-                            Text("No lessons found. Try another search.", modifier = Modifier.padding(20.dp), color = Navy)
+                            Text(if (language == "English") "No lessons found. Try another search." else "Azikho izifundo ezitholakele. Zama ukusesha futhi.", modifier = Modifier.padding(20.dp), color = Navy)
                         }
                     } else {
                         items(visibleLessons) { lesson ->
