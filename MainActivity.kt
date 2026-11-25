@@ -276,7 +276,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
         val slides = if (isCounting) listOf(
             Triple("1", "🍎", if (language == "IsiZulu") "I-apula ELILODWA" else "ONE apple"), Triple("2", "🐥🐥", if (language == "IsiZulu") "AMATSHWANE AMABILI" else "TWO little chicks"),
             Triple("3", "⭐ ⭐ ⭐", if (language == "IsiZulu") "IZINKANYEZI EZINTATHU" else "THREE stars"), Triple("4", "🦋 🦋 🦋 🦋", if (language == "IsiZulu") "IZIMVEMVANE EZINE" else "FOUR butterflies"),
-            Triple("5", "🌼 🌼 🌼 🌼 🌼", "FIVE flowers"), Triple("6", "🐠 🐠 🐠 🐠 🐠 🐠", "SIX fish"),
+            Triple("5", "🌼 🌼 🌼 🌼 🌼", if (language == "IsiZulu") "IZIMBALI EZINHLANU" else "FIVE flowers"), Triple("6", "🐠 🐠 🐠 🐠 🐠 🐠", "SIX fish"),
             Triple("7", "🎈 🎈 🎈 🎈 🎈 🎈 🎈", "SEVEN balloons"), Triple("8", "🍓 🍓 🍓 🍓 🍓 🍓 🍓 🍓", "EIGHT strawberries"),
             Triple("9", "🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗", "NINE cars"), Triple("10", "🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟", "TEN bright stars")
         ) else listOf(
