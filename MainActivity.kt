@@ -232,7 +232,7 @@ fun KidsWorldApp() {
                         }
                     } else {
                         items(visibleLessons) { lesson ->
-                            LessonCard(lesson = lesson, onClick = { selectedLesson = lesson })
+                            LessonCard(lesson = lesson, language = language, onClick = { selectedLesson = lesson })
                         }
                     }
                     item {
@@ -250,7 +250,7 @@ fun KidsWorldApp() {
 }
 
 @Composable
-fun LessonCard(lesson: Lesson, onClick: () -> Unit) {
+fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).clickable(onClick = onClick),
         shape = RoundedCornerShape(18.dp),
