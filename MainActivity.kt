@@ -283,7 +283,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
             Triple("RED", "🍎 ❤️ 🍓", if (language == "IsiZulu") "BOMVU NJENGE-APULA" else "Red like an apple"),
             Triple("BLUE", "🐳 💙 🫐", if (language == "IsiZulu") "LUHLAZA NJENGOLWANDLE" else "Blue like the ocean"),
             Triple("YELLOW", "☀️ 🌻 ⭐", if (language == "IsiZulu") "LUPHUZI NJENGELANGA" else "Yellow like the sunshine"),
-            Triple("GREEN", "🐸 🍀 🥝", "Green like a leaf"),
+            Triple("GREEN", "🐸 🍀 🥝", if (language == "IsiZulu") "LUHLAZA NJENGEQABUNGA" else "Green like a leaf"),
             Triple("PURPLE", "🍇 💜 🌂", "Purple like grapes")
         )
         var page by remember(lesson.title) { mutableIntStateOf(0) }
