@@ -64,6 +64,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent { KidsWorldApp() }
     }
+   fun translatedLessonTitle(title: String, language: String): String {
+    if (language == "English") return title
+
+    return when (title) {
+        "Meet the Alphabet: A to Z" -> "Funda Izinhlamvu: A kuye ku-Z"
+        "Counting from 1 to 10" -> "Bala kusukela ku-1 kuya ku-10"
+        "Learn Colours" -> "Funda Imibala"
+        "Amazing Animals" -> "Izilwane Ezimangalisayo"
+        "Our Solar System" -> "Isimiso Sethu Sonozungezilanga"
+        "Shapes Hunt" -> "Thola Izimo"
+        else -> title
+    }
+   } 
 }
 
 @Composable
