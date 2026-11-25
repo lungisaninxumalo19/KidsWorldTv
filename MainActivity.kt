@@ -345,7 +345,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
                 }
             }
             Spacer(Modifier.height(22.dp))
-            Text(lesson.title, fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
+            Text(translatedLessonTitle(lesson.title, language), fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
             Text(lesson.category + " • " + lesson.age, color = Color(0xFF547087), fontSize = 14.sp)
             Spacer(Modifier.height(14.dp))
             Text(lesson.description, fontSize = 17.sp, color = Navy)
