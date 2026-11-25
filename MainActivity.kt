@@ -311,7 +311,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
         }
         Column(Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             TextButton(onClick = onBack, modifier = Modifier.align(Alignment.Start)) { Text("← Back to lessons", color = Navy) }
-            Text(lesson.title, fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
+            Text(translatedLessonTitle(lesson.title, language), fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
             Spacer(Modifier.height(12.dp))
             Card(Modifier.fillMaxWidth().weight(1f), shape = RoundedCornerShape(28.dp), colors = CardDefaults.cardColors(containerColor = slideColor)) {
                 Column(Modifier.fillMaxSize().padding(18.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
