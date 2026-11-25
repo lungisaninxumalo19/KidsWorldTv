@@ -97,8 +97,7 @@ fun KidsWorldApp() {
             if (section == "Dictionary") { DictionaryScreen(language, { section = "" })
             } else if (section == "Story Time") { StoryTimeScreen(language, { section = "" })
             } else if (section == "Speak & Pronounce") { SpeakScreen(language, { section = "" })
-            } else if (selectedLesson != null) {
-                LessonScreen(lesson = selectedLesson!!, onBack = { selectedLesson = null })
+            LessonScreen(lesson = selectedLesson!!, language = language, onBack = { selectedLesson = null })
             } else if (showParentGate) {
                 ParentGate(
                     onCancel = { showParentGate = false },
