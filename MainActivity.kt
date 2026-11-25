@@ -273,7 +273,18 @@ fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(translatedLessonTitle(lesson.title, language), fontSize = 17.sp, fontWeight = FontWeight.Bold, color = Navy)
-                Text(lesson.category, fontSize = 13.sp, color = Color(0xFF547087))
+                Text(
+    if (language == "IsiZulu") when (lesson.category) {
+        "ABC & Reading" -> "Izinhlamvu Nokufunda"
+        "Numbers & Maths" -> "Izinombolo Nezibalo"
+        "Colours & Shapes" -> "Imibala Nezimo"
+        "Nature & Science" -> "Imvelo Nesayensi"
+        "Little Scientists" -> "Ososayensi Abancane"
+        else -> "Konke"
+    } else lesson.category,
+    fontSize = 13.sp,
+    color = Color(0xFF547087)
+)
                 Spacer(Modifier.height(5.dp))
                 Text(lesson.age, fontSize = 12.sp, color = Color(0xFF547087))
             }
