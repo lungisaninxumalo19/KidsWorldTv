@@ -280,7 +280,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
             Triple("7", "🎈 🎈 🎈 🎈 🎈 🎈 🎈", if (language == "IsiZulu") "AMABHALUNI AYISIKHOMBISA" else "SEVEN balloons"), Triple("8", "🍓 🍓 🍓 🍓 🍓 🍓 🍓 🍓", if (language == "IsiZulu") "AMASTRAWBERRY AYISISHIYAGALOMBILI" else "EIGHT strawberries"),
             Triple("9", "🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗", if (language == "IsiZulu") "IZIMOTO EZIYISISHIYAGALOLUNYE" else "NINE cars"), Triple("10", "🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟", if (language == "IsiZulu") "IZINKANYEZI EZISHUMI EZIKHAZIMULAYO" else "TEN bright stars")
         ) else listOf(
-            Triple("RED", "🍎 ❤️ 🍓", "Red like an apple"),
+            Triple("RED", "🍎 ❤️ 🍓", if (language == "IsiZulu") "BOMVU NJENGE-APULA" else "Red like an apple"),
             Triple("BLUE", "🐳 💙 🫐", "Blue like the ocean"),
             Triple("YELLOW", "☀️ 🌻 ⭐", "Yellow like the sunshine"),
             Triple("GREEN", "🐸 🍀 🥝", "Green like a leaf"),
