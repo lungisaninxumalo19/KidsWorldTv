@@ -226,7 +226,6 @@ fun KidsWorldApp() {
     fontWeight = FontWeight.SemiBold,
     color = if (active) Color.White else Navy
 )
-                                                        color = if (active) Color.White else Navy)
                                                 }
                                             }
                                         }
