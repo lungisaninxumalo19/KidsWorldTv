@@ -143,7 +143,7 @@ fun KidsWorldApp() {
                                     Text(if (language == "English") "Big fun. Bright minds." else "Ubumnandi obukhulu. Izingqondo ezikhanyayo.", color = Color(0xFFCBEAFF), fontSize = 14.sp)
                                 }
                                 IconButton(onClick = { showParentGate = true }) {
-                                    Icon(Icons.Default.Lock, contentDescription = "Parent area", tint = Color.White)
+                                   Icon(Icons.Default.Lock, contentDescription = if (language == "English") "Parent area" else "Indawo yabazali", tint = Color.White) 
                                 }
                             }
                             Spacer(Modifier.height(14.dp))
