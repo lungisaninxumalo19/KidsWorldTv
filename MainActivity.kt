@@ -272,7 +272,7 @@ fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
             ) { Text(lesson.emoji, fontSize = 34.sp) }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
-                Text(lesson.title, fontSize = 17.sp, fontWeight = FontWeight.Bold, color = Navy)
+                Text(translatedLessonTitle(lesson.title, language), fontSize = 17.sp, fontWeight = FontWeight.Bold, color = Navy)
                 Text(lesson.category, fontSize = 13.sp, color = Color(0xFF547087))
                 Spacer(Modifier.height(5.dp))
                 Text(lesson.age, fontSize = 12.sp, color = Color(0xFF547087))
