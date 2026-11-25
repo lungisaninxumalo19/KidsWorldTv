@@ -348,7 +348,19 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
             Text(translatedLessonTitle(lesson.title, language), fontSize = 26.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
             Text(lesson.category + " • " + lesson.age, color = Color(0xFF547087), fontSize = 14.sp)
             Spacer(Modifier.height(14.dp))
-            Text(lesson.description, fontSize = 17.sp, color = Navy)
+            Text(
+    if (language == "IsiZulu") when (lesson.title) {
+        "Meet the Alphabet: A to Z" -> "Buka, yisho futhi ufunde izinhlamvu kusukela ku-A kuye ku-Z."
+        "Counting from 1 to 10" -> "Funda ukubala kusukela kokukodwa kuye kweshumi."
+        "Learn Colours" -> "Thola imibala ebomvu, eluhlaza okwesibhakabhaka, ephuzi, eluhlaza kanye nonsomi."
+        "Amazing Animals" -> "Hlangana nezilwane ufunde ngezindawo ezihlala kuzo."
+        "Our Solar System" -> "Thatha uhambo olufushane lokufunda ngesimiso sonozungezilanga."
+        "Shapes Hunt" -> "Thola imibuthano, izikwele, onxantathu nezinye izimo."
+        else -> lesson.description
+    } else lesson.description,
+    fontSize = 17.sp,
+    color = Navy
+)
             Spacer(Modifier.height(20.dp))
             Text(if (lesson.videoUrl.isBlank()) "Video content will be added in a future update." else "If the video does not play, check that the URL is a direct playable video URL and that hosting permits streaming.", color = Color(0xFF547087), fontSize = 14.sp)
         }
