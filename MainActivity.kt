@@ -188,7 +188,7 @@ fun KidsWorldApp() {
                                 }
                             }
                             Spacer(Modifier.height(14.dp))
-                            Text("Explore topics", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Navy)
+                            Text(if (language == "English") "Explore topics" else "Hlola izihloko", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Navy)
                             Spacer(Modifier.height(10.dp))
                             Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                                 categories.chunked(2).forEach { pair ->
