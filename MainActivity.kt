@@ -64,7 +64,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent { KidsWorldApp() }
     }
-   fun translatedLessonTitle(title: String, language: String): String {
+}  
+fun translatedLessonTitle(title: String, language: String): String {
     if (language == "English") return title
 
     return when (title) {
