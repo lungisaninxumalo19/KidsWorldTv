@@ -278,7 +278,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
             Triple("3", "⭐ ⭐ ⭐", if (language == "IsiZulu") "IZINKANYEZI EZINTATHU" else "THREE stars"), Triple("4", "🦋 🦋 🦋 🦋", if (language == "IsiZulu") "IZIMVEMVANE EZINE" else "FOUR butterflies"),
             Triple("5", "🌼 🌼 🌼 🌼 🌼", if (language == "IsiZulu") "IZIMBALI EZINHLANU" else "FIVE flowers"), Triple("6", "🐠 🐠 🐠 🐠 🐠 🐠", if (language == "IsiZulu") "IZINHLANZI EZIYISITHUPHA" else "SIX fish"),
             Triple("7", "🎈 🎈 🎈 🎈 🎈 🎈 🎈", if (language == "IsiZulu") "AMABHALUNI AYISIKHOMBISA" else "SEVEN balloons"), Triple("8", "🍓 🍓 🍓 🍓 🍓 🍓 🍓 🍓", if (language == "IsiZulu") "AMASTRAWBERRY AYISISHIYAGALOMBILI" else "EIGHT strawberries"),
-            Triple("9", "🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗", if (language == "IsiZulu") "IZIMOTO EZIYISISHIYAGALOLUNYE" else "NINE cars"), Triple("10", "🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟", "TEN bright stars")
+            Triple("9", "🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗", if (language == "IsiZulu") "IZIMOTO EZIYISISHIYAGALOLUNYE" else "NINE cars"), Triple("10", "🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟", if (language == "IsiZulu") "IZINKANYEZI EZISHUMI EZIKHAZIMULAYO" else "TEN bright stars")
         ) else listOf(
             Triple("RED", "🍎 ❤️ 🍓", "Red like an apple"),
             Triple("BLUE", "🐳 💙 🫐", "Blue like the ocean"),
