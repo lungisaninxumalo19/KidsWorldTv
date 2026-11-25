@@ -269,7 +269,8 @@ fun LessonCard(lesson: Lesson, onClick: () -> Unit) {
 }
 
 @Composable
-LessonScreen(lesson = selectedLesson!!, language = language, onBack = { selectedLesson = null })
+@Composable
+fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
     val isCounting = lesson.title == "Counting from 1 to 10"
     val isColours = lesson.title == "Learn Colours"
     if (isCounting || isColours) {
