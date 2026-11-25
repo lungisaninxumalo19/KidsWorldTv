@@ -223,7 +223,7 @@ fun KidsWorldApp() {
                             }
                             Spacer(Modifier.height(20.dp))
                             Text(if (language == "English") "Learning videos" else "Amavidiyo okufunda", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Navy)
-                            Text("Choose a lesson to get started.", fontSize = 14.sp, color = Color(0xFF547087))
+                            Text(if (language == "English") "Choose a lesson to get started." else "Khetha isifundo ukuze uqale.", fontSize = 14.sp, color = Color(0xFF547087))
                         }
                     }
                     if (visibleLessons.isEmpty()) {
