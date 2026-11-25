@@ -212,7 +212,20 @@ fun KidsWorldApp() {
                                                 Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                                                     Text(emoji, fontSize = 24.sp)
                                                     Spacer(Modifier.height(4.dp))
-                                                    Text(category, fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
+                                                    Text(
+    if (language == "IsiZulu") when (category) {
+        "All" -> "Konke"
+        "ABC & Reading" -> "Izinhlamvu Nokufunda"
+        "Numbers & Maths" -> "Izinombolo Nezibalo"
+        "Colours & Shapes" -> "Imibala Nezimo"
+        "Nature & Science" -> "Imvelo Nesayensi"
+        "Little Scientists" -> "Ososayensi Abancane"
+        else -> category
+    } else category,
+    fontSize = 12.sp,
+    fontWeight = FontWeight.SemiBold,
+    color = if (active) Color.White else Navy
+)
                                                         color = if (active) Color.White else Navy)
                                                 }
                                             }
