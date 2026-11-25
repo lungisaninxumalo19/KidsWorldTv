@@ -237,7 +237,7 @@ fun KidsWorldApp() {
                     }
                     item {
                         Text(
-                            "A safe space to learn and grow 💛",
+                            if (language == "English") "A safe space to learn and grow 💛" else "Indawo ephephile yokufunda nokukhula 💛",
                             modifier = Modifier.fillMaxWidth().padding(20.dp),
                             color = Color(0xFF547087),
                             fontSize = 13.sp
