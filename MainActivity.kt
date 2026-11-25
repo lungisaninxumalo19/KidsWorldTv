@@ -140,7 +140,7 @@ fun KidsWorldApp() {
                                 Spacer(Modifier.width(10.dp))
                                 Column(Modifier.weight(1f)) {
                                     Text("Kids World TV", fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = Color.White)
-                                    Text("Big fun. Bright minds.", color = Color(0xFFCBEAFF), fontSize = 14.sp)
+                                    Text(if (language == "English") "Big fun. Bright minds." else "Ubumnandi obukhulu. Izingqondo ezikhanyayo.", color = Color(0xFFCBEAFF), fontSize = 14.sp)
                                 }
                                 IconButton(onClick = { showParentGate = true }) {
                                     Icon(Icons.Default.Lock, contentDescription = "Parent area", tint = Color.White)
