@@ -284,7 +284,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
             Triple("BLUE", "🐳 💙 🫐", if (language == "IsiZulu") "LUHLAZA NJENGOLWANDLE" else "Blue like the ocean"),
             Triple("YELLOW", "☀️ 🌻 ⭐", if (language == "IsiZulu") "LUPHUZI NJENGELANGA" else "Yellow like the sunshine"),
             Triple("GREEN", "🐸 🍀 🥝", if (language == "IsiZulu") "LUHLAZA NJENGEQABUNGA" else "Green like a leaf"),
-            Triple("PURPLE", "🍇 💜 🌂", "Purple like grapes")
+            Triple("PURPLE", "🍇 💜 🌂", if (language == "IsiZulu") "NSOMI NJENGAMAGILEBHISI" else "Purple like grapes"),
         )
         var page by remember(lesson.title) { mutableIntStateOf(0) }
         val slide = slides[page]
