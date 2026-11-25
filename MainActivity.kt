@@ -76,7 +76,7 @@ fun translatedLessonTitle(title: String, language: String): String {
         "Our Solar System" -> "Isimiso Sethu Sonozungezilanga"
         "Shapes Hunt" -> "Thola Izimo"
         else -> title
-    }
+    
    } 
 }
 
