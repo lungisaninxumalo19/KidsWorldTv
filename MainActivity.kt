@@ -359,6 +359,7 @@ fun EnglishNarratorButton(text: String) {
                 containerColor = Teal
             )
         ) {
+            Text(translatedLessonTitle(lesson.title, language), fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
             Text("🇬🇧 English Narrator 🔊")
         }
 
