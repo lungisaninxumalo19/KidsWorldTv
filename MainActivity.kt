@@ -1,19 +1,17 @@
 package com.kidsworldtv.app
 
-import android.os.Bundle
+import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
-import android.Manifest
-import android.content.pm.PackageManager
-import android.content.Context
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
 import androidx.compose.foundation.background
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -30,13 +28,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
@@ -48,7 +47,7 @@ private val Coral = Color(0xFFFF8066)
 private val Teal = Color(0xFF39BFA7)
 private val Yellow = Color(0xFFFFD45C)
 
-data class Lesson(
+private data class Lesson(
     val title: String,
     val category: String,
     val age: String,
@@ -80,7 +79,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun translatedLessonTitle(title: String, language: String): String {
+private fun translatedLessonTitle(title: String, language: String): String {
     if (language == "English") return title
     return when (title) {
         "Meet the Alphabet: A to Z" -> "Funda Izinhlamvu: A kuye ku-Z"
@@ -93,7 +92,7 @@ fun translatedLessonTitle(title: String, language: String): String {
     }
 }
 
-fun lessonNarration(lesson: Lesson, page: Int = 0): Pair<String, String> {
+private fun lessonNarration(lesson: Lesson, page: Int = 0): Pair<String, String> {
     return when (lesson.title) {
         "Meet the Alphabet: A to Z" -> Pair(
             "Welcome to the alphabet lesson! Let's learn the letters from A to Z together. A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y and Z. Excellent work!",
@@ -152,22 +151,23 @@ fun lessonNarration(lesson: Lesson, page: Int = 0): Pair<String, String> {
 }
 
 @Composable
-fun LessonNarratorControls(englishText: String, isiZuluText: String) {
+private fun LessonNarratorControls(englishText: String, isiZuluText: String) {
     val context = LocalContext.current
     var ready by remember { mutableStateOf(false) }
     var message by remember { mutableStateOf("") }
     val tts = remember {
-        TextToSpeech(context) { status ->
+        TextToSpeech(context.applicationContext) { status ->
             ready = status == TextToSpeech.SUCCESS
         }
     }
     DisposableEffect(tts) {
-        onDispose { tts.stop(); tts.shutdown() }
+        onDispose {
+            tts.stop()
+            tts.shutdown()
+        }
     }
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+
+    Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         Text("Choose your narrator / Khetha umxoxi", color = Navy, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(6.dp))
         Button(
@@ -220,14 +220,14 @@ fun LessonNarratorControls(englishText: String, isiZuluText: String) {
 }
 
 @Composable
-fun KidsWorldApp() {
-    var selectedCategory by remember { mutableStateOf("All") }
-    var search by remember { mutableStateOf("") }
+private fun KidsWorldApp() {
+    var selectedCategory by rememberSaveable { mutableStateOf("All") }
+    var search by rememberSaveable { mutableStateOf("") }
     var selectedLesson by remember { mutableStateOf<Lesson?>(null) }
     var showParentGate by remember { mutableStateOf(false) }
     var parentUnlocked by remember { mutableStateOf(false) }
     var language by rememberSaveable { mutableStateOf("English") }
-    var section by remember { mutableStateOf("") }
+    var section by rememberSaveable { mutableStateOf("") }
 
     val categories = listOf(
         "All", "ABC & Reading", "Numbers & Maths",
@@ -251,7 +251,9 @@ fun KidsWorldApp() {
                 section == "Story Time" -> StoryTimeScreen(language) { section = "" }
                 section == "Speak & Pronounce" -> SpeakScreen(language) { section = "" }
                 selectedLesson != null -> LessonScreen(
-                    selectedLesson!!, language, onBack = { selectedLesson = null }
+                    lesson = selectedLesson!!,
+                    language = language,
+                    onBack = { selectedLesson = null }
                 )
                 showParentGate -> ParentGate(
                     onCancel = { showParentGate = false },
@@ -313,13 +315,15 @@ fun KidsWorldApp() {
                                 )
                                 Spacer(Modifier.height(12.dp))
                                 OutlinedTextField(
-                                    value = search, onValueChange = { search = it },
+                                    value = search,
+                                    onValueChange = { search = it },
                                     modifier = Modifier.fillMaxWidth(),
                                     placeholder = {
                                         Text(if (language == "English") "Search lessons" else "Sesha izifundo")
                                     },
                                     leadingIcon = { Icon(Icons.Default.Search, null) },
-                                    singleLine = true, shape = RoundedCornerShape(16.dp),
+                                    singleLine = true,
+                                    shape = RoundedCornerShape(16.dp),
                                     colors = OutlinedTextFieldDefaults.colors(
                                         focusedContainerColor = Color.White,
                                         unfocusedContainerColor = Color.White
@@ -339,18 +343,18 @@ fun KidsWorldApp() {
                                     "📖  My Dictionary" to "Dictionary",
                                     "🎬  Story Time" to "Story Time",
                                     "🗣️  Speak & Pronounce" to "Speak & Pronounce"
-                                ).forEach { item ->
+                                ).forEach { menuItem ->
                                     Card(
                                         Modifier.fillMaxWidth().padding(vertical = 4.dp)
-                                            .clickable { section = item.second },
+                                            .clickable { section = menuItem.second },
                                         colors = CardDefaults.cardColors(containerColor = Color.White)
                                     ) {
                                         Text(
-                                            if (language == "IsiZulu") when (item.second) {
+                                            if (language == "IsiZulu") when (menuItem.second) {
                                                 "Dictionary" -> "📖  Isichazamazwi"
                                                 "Story Time" -> "🎬  Isikhathi Sezindaba"
                                                 else -> "🗣️  Khuluma Nokubiza Amagama"
-                                            } else item.first,
+                                            } else menuItem.first,
                                             Modifier.padding(16.dp), color = Navy,
                                             fontWeight = FontWeight.Bold
                                         )
@@ -378,10 +382,13 @@ fun KidsWorldApp() {
                                                 Surface(
                                                     Modifier.weight(1f).clickable { selectedCategory = category },
                                                     color = if (active) Teal else Color.White,
-                                                    shape = RoundedCornerShape(14.dp), shadowElevation = 1.dp
+                                                    shape = RoundedCornerShape(14.dp),
+                                                    shadowElevation = 1.dp
                                                 ) {
-                                                    Column(Modifier.padding(12.dp),
-                                                        horizontalAlignment = Alignment.CenterHorizontally) {
+                                                    Column(
+                                                        Modifier.padding(12.dp),
+                                                        horizontalAlignment = Alignment.CenterHorizontally
+                                                    ) {
                                                         Text(emoji, fontSize = 24.sp)
                                                         Spacer(Modifier.height(4.dp))
                                                         Text(
@@ -394,7 +401,8 @@ fun KidsWorldApp() {
                                                                 "Little Scientists" -> "Ososayensi Abancane"
                                                                 else -> category
                                                             } else category,
-                                                            fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
+                                                            fontSize = 12.sp,
+                                                            fontWeight = FontWeight.SemiBold,
                                                             color = if (active) Color.White else Navy
                                                         )
                                                     }
@@ -446,7 +454,7 @@ fun KidsWorldApp() {
 }
 
 @Composable
-fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
+private fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
     Card(
         Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp).clickable(onClick = onClick),
         shape = RoundedCornerShape(18.dp),
@@ -491,13 +499,13 @@ fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
+private fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
     val isCounting = lesson.title == "Counting from 1 to 10"
     val isColours = lesson.title == "Learn Colours"
 
     if (isCounting || isColours) {
         val slides = if (isCounting) listOf(
-            Triple("1", "🍎", if (language == "IsiZulu") "I-apula ELILODWA" else "ONE apple"),
+            Triple("1", "🍎", if (language == "IsiZulu") "I-APULA ELILODWA" else "ONE apple"),
             Triple("2", "🐥🐥", if (language == "IsiZulu") "AMATSHWANE AMABILI" else "TWO little chicks"),
             Triple("3", "⭐ ⭐ ⭐", if (language == "IsiZulu") "IZINKANYEZI EZINTATHU" else "THREE stars"),
             Triple("4", "🦋 🦋 🦋 🦋", if (language == "IsiZulu") "IZIMVEMVANE EZINE" else "FOUR butterflies"),
@@ -510,7 +518,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
         ) else listOf(
             Triple("RED", "🍎 ❤️ 🍓", if (language == "IsiZulu") "BOMVU NJENGE-APULA" else "Red like an apple"),
             Triple("BLUE", "🐳 💙 🫐", if (language == "IsiZulu") "LUHLAZA OKWESIBHAKABHAKA NJENGOLWANDLE" else "Blue like the ocean"),
-            Triple("YELLOW", "☀️ 🌻 ⭐", if (language == "IsiZulu") "LUPHUZI NJENGELANGA" else "Yellow like the sunshine"),
+            Triple("YELLOW", "☀️ 🌻 ⭐", if (language == "IsiZulu") "PHUZI NJENGELANGA" else "Yellow like the sunshine"),
             Triple("GREEN", "🐸 🍀 🥝", if (language == "IsiZulu") "LUHLAZA NJENGEQABUNGA" else "Green like a leaf"),
             Triple("PURPLE", "🍇 💜 🌂", if (language == "IsiZulu") "NSOMI NJENGAMAGILEBHISI" else "Purple like grapes")
         )
@@ -526,8 +534,10 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
             else -> Color(0xFFEEDFFF)
         }
 
-        Column(Modifier.fillMaxSize().padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            Modifier.fillMaxSize().padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             TextButton(onClick = onBack, modifier = Modifier.align(Alignment.Start)) {
                 Text("← Back to lessons", color = Navy)
             }
@@ -541,9 +551,11 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
                 shape = RoundedCornerShape(28.dp),
                 colors = CardDefaults.cardColors(containerColor = slideColor)
             ) {
-                Column(Modifier.fillMaxSize().padding(18.dp),
+                Column(
+                    Modifier.fillMaxSize().padding(18.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center) {
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Text(slide.first,
                         fontSize = if (isCounting) 76.sp else 46.sp,
                         fontWeight = FontWeight.ExtraBold, color = Navy)
@@ -622,7 +634,7 @@ fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
 }
 
 @Composable
-fun DictionaryScreen(language: String, onBack: () -> Unit) {
+private fun DictionaryScreen(language: String, onBack: () -> Unit) {
     val words = listOf(
         Triple("Apple", "A round fruit that grows on a tree.", "I-apula"),
         Triple("Book", "A set of pages with writing or pictures.", "Incwadi"),
@@ -666,7 +678,7 @@ fun DictionaryScreen(language: String, onBack: () -> Unit) {
 }
 
 @Composable
-fun StoryTimeScreen(language: String, onBack: () -> Unit) {
+private fun StoryTimeScreen(language: String, onBack: () -> Unit) {
     val stories = if (language == "English") listOf(
         "The Helpful Little Elephant", "The Lion Who Learned to Share",
         "The Clever Hare", "A Rainy Day Adventure"
@@ -697,7 +709,7 @@ fun StoryTimeScreen(language: String, onBack: () -> Unit) {
 }
 
 @Composable
-fun SpeakScreen(language: String, onBack: () -> Unit) {
+private fun SpeakScreen(language: String, onBack: () -> Unit) {
     val context = LocalContext.current
     val locale = if (language == "IsiZulu") Locale("zu", "ZA") else Locale.US
     val examples = if (language == "IsiZulu")
@@ -710,12 +722,15 @@ fun SpeakScreen(language: String, onBack: () -> Unit) {
     var ttsReady by remember { mutableStateOf(false) }
 
     val tts = remember {
-        TextToSpeech(context) { status ->
+        TextToSpeech(context.applicationContext) { status ->
             ttsReady = status == TextToSpeech.SUCCESS
         }
     }
     DisposableEffect(tts) {
-        onDispose { tts.stop(); tts.shutdown() }
+        onDispose {
+            tts.stop()
+            tts.shutdown()
+        }
     }
 
     val speechLauncher = rememberLauncherForActivityResult(
@@ -725,24 +740,17 @@ fun SpeakScreen(language: String, onBack: () -> Unit) {
             ?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             ?.firstOrNull().orEmpty()
         heard = spoken
-        feedback = if (spoken.isNotBlank())
-            "Good try! / Wenze kahle!"
-        else
-            "Please try again. / Zama futhi."
+        feedback = if (spoken.isNotBlank()) "Good try! / Wenze kahle!"
+        else "Please try again. / Zama futhi."
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
         if (granted) {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                    if (language == "IsiZulu") "zu-ZA" else "en-US")
-                putExtra(RecognizerIntent.EXTRA_PROMPT, "Say: ${examples[index]}")
-            }
-            speechLauncher.launch(intent)
+            val intent = makeSpeechIntent(language, examples[index])
+            if (intent != null) speechLauncher.launch(intent)
+            else feedback = "Speech recognition is not available on this phone."
         } else {
             feedback = "Microphone permission is needed for speaking practice."
         }
@@ -762,8 +770,14 @@ fun SpeakScreen(language: String, onBack: () -> Unit) {
         Button(
             onClick = {
                 if (ttsReady) {
-                    tts.language = locale
-                    tts.speak(examples[index], TextToSpeech.QUEUE_FLUSH, null, "kids_word")
+                    val result = tts.setLanguage(locale)
+                    if (result == TextToSpeech.LANG_MISSING_DATA ||
+                        result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                        feedback = "This language voice is not installed on this phone."
+                    } else {
+                        feedback = ""
+                        tts.speak(examples[index], TextToSpeech.QUEUE_FLUSH, null, "kids_word")
+                    }
                 } else feedback = "Voice is loading. Please try again."
             },
             colors = ButtonDefaults.buttonColors(containerColor = Teal)
@@ -773,14 +787,9 @@ fun SpeakScreen(language: String, onBack: () -> Unit) {
         Button(onClick = {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
                 == PackageManager.PERMISSION_GRANTED) {
-                val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-                    putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-                    putExtra(RecognizerIntent.EXTRA_LANGUAGE,
-                        if (language == "IsiZulu") "zu-ZA" else "en-US")
-                    putExtra(RecognizerIntent.EXTRA_PROMPT, "Say: ${examples[index]}")
-                }
-                speechLauncher.launch(intent)
+                val intent = makeSpeechIntent(language, examples[index])
+                if (intent != null) speechLauncher.launch(intent)
+                else feedback = "Speech recognition is not available on this phone."
             } else {
                 permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
             }
@@ -803,8 +812,20 @@ fun SpeakScreen(language: String, onBack: () -> Unit) {
     }
 }
 
+private fun makeSpeechIntent(language: String, phrase: String): Intent? {
+    return try {
+        Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, if (language == "IsiZulu") "zu-ZA" else "en-US")
+            putExtra(RecognizerIntent.EXTRA_PROMPT, "Say: $phrase")
+        }
+    } catch (_: Exception) {
+        null
+    }
+}
+
 @Composable
-fun ParentGate(onCancel: () -> Unit, onUnlock: () -> Unit) {
+private fun ParentGate(onCancel: () -> Unit, onUnlock: () -> Unit) {
     var answer by remember { mutableStateOf("") }
     Column(Modifier.fillMaxSize().padding(24.dp),
         verticalArrangement = Arrangement.Center) {
@@ -826,7 +847,7 @@ fun ParentGate(onCancel: () -> Unit, onUnlock: () -> Unit) {
 }
 
 @Composable
-fun ParentScreen(onBack: () -> Unit) {
+private fun ParentScreen(onBack: () -> Unit) {
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         TextButton(onClick = onBack) { Text("← Back", color = Navy) }
         Text("Parent dashboard", fontSize = 27.sp, fontWeight = FontWeight.Bold, color = Navy)
@@ -845,7 +866,7 @@ fun ParentScreen(onBack: () -> Unit) {
 }
 
 @Composable
-fun VideoPlayer(videoUrl: String) {
+private fun VideoPlayer(videoUrl: String) {
     val context = LocalContext.current
     val player = remember(videoUrl) {
         ExoPlayer.Builder(context).build().apply {
@@ -866,6 +887,6 @@ fun VideoPlayer(videoUrl: String) {
                 setShowBuffering(PlayerView.SHOW_BUFFERING_WHEN_PLAYING)
             }
         },
-        update = { it.player = player }
+        update = { view -> view.player = player }
     )
 }
