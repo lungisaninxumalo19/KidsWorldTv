@@ -306,7 +306,50 @@ fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
+fun EnglishNarratorButton(text: String) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    val tts = remember {
+        TextToSpeech(context) {}
+    }
+
+    DisposableEffect(tts) {
+        onDispose {
+            tts.stop()
+            tts.shutdown()
+        }
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = {
+                tts.language = Locale.US
+                tts.speak(
+                    text,
+                    TextToSpeech.QUEUE_FLUSH,
+                    null,
+                    "english_narrator"
+                )
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Teal
+            )
+        ) {
+            Text("🇬🇧 English Narrator 🔊")
+        }
+
+        OutlinedButton(
+            onClick = {
+                tts.stop()
+            }
+        ) {
+            Text("■ Stop narration")
+        }
+    }
+}
+
     val isCounting = lesson.title == "Counting from 1 to 10"
     val isColours = lesson.title == "Learn Colours"
     if (isCounting || isColours) {
