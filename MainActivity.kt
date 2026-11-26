@@ -284,7 +284,29 @@ fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
             ) { Text(lesson.emoji, fontSize = 34.sp) }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
-                Text(translatedLessonTitle(lesson.title, language), fontSize = 17.sp, fontWeight = FontWeight.Bold, color = Navy)
+                EnglishNarratorButton(
+    text = when (lesson.title) {
+        "Counting from 1 to 10" ->
+            "Let's learn to count! One, two, three, four, five, six, seven, eight, nine and ten!"
+
+        "Learn Colours" ->
+            "Let's learn colours! Red, blue, yellow, green and purple!"
+
+        "Meet the Alphabet: A to Z" ->
+            "Let's learn the alphabet! A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y and Z!"
+
+        "Amazing Animals" ->
+            "Let's learn about animals! Lions, elephants, giraffes and many more!"
+
+        "Our Solar System" ->
+            "Let's explore space! We have eight planets orbiting the Sun."
+
+        "Shapes Hunt" ->
+            "Let's find shapes! Circle, square, triangle, rectangle and star!"
+
+        else -> "Welcome to Kids World TV! Let's learn together!"
+    }
+)
                 Text(
     if (language == "IsiZulu") when (lesson.category) {
         "ABC & Reading" -> "Izinhlamvu Nokufunda"
