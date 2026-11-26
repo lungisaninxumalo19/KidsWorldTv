@@ -360,18 +360,6 @@ fun EnglishNarratorButton(text: String) {
             )
         ) {
             Text(translatedLessonTitle(lesson.title, language), fontSize = 24.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
-            Text("🇬🇧 English Narrator 🔊")
-        }
-
-        OutlinedButton(
-            onClick = {
-                tts.stop()
-            }
-        ) {
-            Text("■ Stop narration")
-        }
-    }
-}
 
     val isCounting = lesson.title == "Counting from 1 to 10"
     val isColours = lesson.title == "Learn Colours"
