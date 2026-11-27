@@ -503,6 +503,10 @@ private fun LessonCard(lesson: Lesson, language: String, onClick: () -> Unit) {
 private fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
     val isCounting = lesson.title == "Counting from 1 to 10"
     val isColours = lesson.title == "Learn Colours"
+if (isCounting) {
+    CountingPracticeScreen(lesson, language, onBack)
+    return
+}
 
     if (isCounting || isColours) {
         val slides = if (isCounting) listOf(
