@@ -898,7 +898,7 @@ private fun DictionaryScreen(language: String, onBack: () -> Unit) {
 
     val words = listOf(
         // ANIMALS (17)
-        Word("Animals", "Apple", "A round fruit that grows on a tree.", "I-apula"),
+        Word("Everyday", "Apple", "A round fruit that grows on a tree.", "I-apula"),
         Word("Animals", "Cat", "A small animal that says meow.", "Ikati"),
         Word("Animals", "Dog", "A friendly animal often kept as a pet.", "Inja"),
         Word("Animals", "Lion", "A large wild cat called the king of animals.", "Ibhubesi"),
