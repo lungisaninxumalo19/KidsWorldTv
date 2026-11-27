@@ -337,11 +337,12 @@ private fun KidsWorldApp() {
                                     fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Navy
                                 )
                                 Spacer(Modifier.height(8.dp))
-                                listOf(
-                                    "📖  My Dictionary" to "Dictionary",
-                                    "🎬  Story Time" to "Story Time",
-                                    "🗣️  Speak & Pronounce" to "Speak & Pronounce"
-                                ).forEach { menuItem ->
+    listOf(
+    "📖  My Dictionary" to "Dictionary",
+    "🎬  Story Time" to "Story Time",
+    "🗣️  Speak & Pronounce" to "Speak & Pronounce",
+    "ℹ️  About & App Information" to "About"
+).forEach { menuItem ->
                                     Card(
                                         Modifier.fillMaxWidth().padding(vertical = 4.dp)
                                             .clickable { section = menuItem.second },
