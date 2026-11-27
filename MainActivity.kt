@@ -1221,32 +1221,392 @@ private fun DictionaryScreen(language: String, onBack: () -> Unit) {
 
 @Composable
 private fun StoryTimeScreen(language: String, onBack: () -> Unit) {
-    val stories = if (language == "English") listOf(
-        "The Helpful Little Elephant", "The Lion Who Learned to Share",
-        "The Clever Hare", "A Rainy Day Adventure"
-    ) else listOf(
-        "Indlovu Encane Esizayo", "Ibhubesi Elafunda Ukwabelana",
-        "Unogwaja Ohlakaniphile", "Uhambo Losuku Lwemvula"
+    data class Story(
+        val englishTitle: String,
+        val isiZuluTitle: String,
+        val emoji: String,
+        val englishPages: List<String>,
+        val isiZuluPages: List<String>
     )
-    Column(Modifier.fillMaxSize().padding(18.dp)) {
-        TextButton(onClick = onBack) { Text("← Back", color = Navy) }
-        Text(if (language == "English") "Story Time" else "Isikhathi Sezindaba",
-            fontSize = 27.sp, fontWeight = FontWeight.Bold, color = Navy)
-        Text(if (language == "English") "Short, kind stories for young learners"
-            else "Izindaba ezimfushane ezifundisa izingane", color = Color(0xFF547087))
-        stories.forEachIndexed { index, title ->
-            Card(Modifier.fillMaxWidth().padding(vertical = 6.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)) {
-                Column(Modifier.padding(16.dp)) {
-                    Text(listOf("🐘", "🦁", "🐇", "🌦️")[index], fontSize = 34.sp)
-                    Text(title, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Navy)
-                    Text(if (language == "English") "Story clip coming soon"
-                        else "Ividiyo yendaba iyeza", color = Coral)
+
+    val stories = listOf(
+        Story(
+            "The Helpful Little Elephant",
+            "Indlovu Encane Esizayo",
+            "🐘",
+            listOf(
+                "Once upon a time, a little elephant named Ellie lived in a beautiful forest.",
+                "One morning, Ellie saw a small bird whose nest had fallen from a tree.",
+                "Ellie gently lifted the nest with her trunk and helped put it back. The bird was very happy.",
+                "Ellie learned that helping others is a wonderful thing. Everyone thanked their kind friend."
+            ),
+            listOf(
+                "Kwesukasukela, indlovu encane okuthiwa u-Ellie yayihlala ehlathini elihle.",
+                "Ngolunye usuku ekuseni, u-Ellie wabona inyoni encane enesidleke esiwele phansi.",
+                "U-Ellie wasebenzisa umboko wakhe ngobumnene waphakamisa isidleke wasibuyisela esihlahleni. Inyoni yajabula kakhulu.",
+                "U-Ellie wafunda ukuthi ukusiza abanye kuyinto enhle. Bonke babonga umngane wabo onomusa."
+            )
+        ),
+        Story(
+            "The Lion Who Learned to Share",
+            "Ibhubesi Elafunda Ukwabelana",
+            "🦁",
+            listOf(
+                "Leo the young lion had many delicious fruits, but he never shared them.",
+                "One day, his friends came to visit. They were hungry and asked if they could have some fruit.",
+                "Leo thought about it and decided to share. They all enjoyed the fruit together.",
+                "Leo discovered that sharing makes friendship stronger and brings happiness."
+            ),
+            listOf(
+                "ULeo, ibhubesi elincane, wayenezithelo eziningi ezimnandi kodwa wayengafuni ukwabelana.",
+                "Ngelinye ilanga, abangane bakhe bamvakashela. Babelambile bacela izithelo.",
+                "ULeo wacabanga wabe esenquma ukwabelana nabo. Bonke badla izithelo ndawonye.",
+                "ULeo wafunda ukuthi ukwabelana kuqinisa ubungane futhi kuletha injabulo."
+            )
+        ),
+        Story(
+            "The Clever Hare",
+            "Unogwaja Ohlakaniphile",
+            "🐇",
+            listOf(
+                "A clever little hare lived near a big river.",
+                "One day, the river became too deep for the hare to cross.",
+                "The hare looked around and found a safe path across some large stones.",
+                "The hare crossed carefully and learned to think before acting."
+            ),
+            listOf(
+                "Unogwaja omncane ohlakaniphile wayehlala eduze komfula omkhulu.",
+                "Ngelinye ilanga, amanzi omfula ajula kakhulu kangangokuba wayengakwazi ukuwela.",
+                "Unogwaja wabheka nxazonke wathola indlela ephephile yokuwela ngamatshe amakhulu.",
+                "Unogwaja wawela ngokucophelela wafunda ukuthi kubalulekile ukucabanga ngaphambi kokwenza."
+            )
+        ),
+        Story(
+            "A Rainy Day Adventure",
+            "Uhambo Losuku Lwemvula",
+            "🌧️",
+            listOf(
+                "Thandi woke up and heard the rain falling outside.",
+                "She put on her raincoat and watched the little drops dance on the ground.",
+                "After the rain, she saw a beautiful rainbow in the sky.",
+                "Thandi learned that rainy days can bring wonderful surprises."
+            ),
+            listOf(
+                "UThandi wavuka wezwa imvula ina ngaphandle.",
+                "Wagqoka ijazi lakhe lemvula wabuka amathonsi amancane edansa phansi.",
+                "Ngemva kwemvula, wabona uthingo oluhle esibhakabhakeni.",
+                "UThandi wafunda ukuthi izinsuku zemvula zingaletha izinto ezimangalisayo."
+            )
+        ),
+        Story(
+            "The Little Tree Planters",
+            "Izingane Ezatshala Izihlahla",
+            "🌳",
+            listOf(
+                "A group of children wanted to make their playground greener.",
+                "They collected small trees and prepared the soil together.",
+                "They planted the trees, watered them and promised to care for them.",
+                "As the trees grew, the children learned to protect and love nature."
+            ),
+            listOf(
+                "Iqembu lezingane lalifuna ukwenza indawo yalo yokudlala ibe luhlaza.",
+                "Baqoqa izihlahla ezincane balungisa nomhlabathi ndawonye.",
+                "Batshala izihlahla, bazinisela futhi bathembisa ukuzinakekela.",
+                "Njengoba izihlahla zikhula, izingane zafunda ukuvikela nokuthanda imvelo."
+            )
+        ),
+        Story(
+            "The Little Firefighter",
+            "Umcimi-mlilo Omncane",
+            "🚒",
+            listOf(
+                "Sam loved learning about firefighters and how they help people.",
+                "One day, Sam saw a little puppy trapped behind a garden gate.",
+                "Sam called a grown-up for help. Together, they safely helped the puppy.",
+                "Sam learned that being brave also means asking a trusted adult for help."
+            ),
+            listOf(
+                "USam wayethanda ukufunda ngabacimi-mlilo nangendlela abasiza ngayo abantu.",
+                "Ngelinye ilanga, uSam wabona umdlwane omncane uvaleleke ngemuva kwesango lengadi.",
+                "USam wabiza umuntu omdala ukuba amsize. Base besiza umdlwane ngokuphepha.",
+                "USam wafunda ukuthi ukuba nesibindi kusho nokucela usizo kumuntu omdala omethembayo."
+            )
+        )
+    )
+
+    var selectedStory by remember { mutableIntStateOf(-1) }
+    var page by remember { mutableIntStateOf(0) }
+    var ttsReady by remember { mutableStateOf(false) }
+    var voiceMessage by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val tts = remember {
+        TextToSpeech(context.applicationContext) { status ->
+            ttsReady = status == TextToSpeech.SUCCESS
+        }
+    }
+
+    DisposableEffect(tts) {
+        onDispose {
+            tts.stop()
+            tts.shutdown()
+        }
+    }
+
+    Column(
+        Modifier.fillMaxSize().padding(16.dp)
+    ) {
+        TextButton(
+            onClick = {
+                if (selectedStory >= 0) {
+                    tts.stop()
+                    selectedStory = -1
+                    page = 0
+                    voiceMessage = ""
+                } else {
+                    onBack()
+                }
+            }
+        ) {
+            Text(
+                if (selectedStory >= 0) "← Back to stories"
+                else "← Back",
+                color = Navy
+            )
+        }
+
+        Text(
+            if (language == "English") "📖 Story Time"
+            else "📖 Isikhathi Sezindaba",
+            fontSize = 27.sp,
+            fontWeight = FontWeight.Bold,
+            color = Navy
+        )
+
+        Text(
+            if (language == "English")
+                "Six short stories about kindness, friendship and learning."
+            else
+                "Izindaba eziyisithupha ezimfushane ezifundisa umusa, ubungane nokufunda.",
+            color = Color(0xFF547087),
+            fontSize = 13.sp
+        )
+
+        Spacer(Modifier.height(12.dp))
+
+        if (selectedStory == -1) {
+            LazyColumn(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                contentPadding = PaddingValues(bottom = 16.dp)
+            ) {
+                items(stories) { story ->
+                    val storyIndex = stories.indexOf(story)
+
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(18.dp)
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth()
+                                .clickable {
+                                    selectedStory = storyIndex
+                                    page = 0
+                                    voiceMessage = ""
+                                }
+                                .padding(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(story.emoji, fontSize = 38.sp)
+                            Spacer(Modifier.width(14.dp))
+                            Column(Modifier.weight(1f)) {
+                                Text(
+                                    if (language == "English")
+                                        story.englishTitle
+                                    else
+                                        story.isiZuluTitle,
+                                    fontSize = 17.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Navy
+                                )
+                                Text(
+                                    if (language == "English")
+                                        "Read and listen to this story"
+                                    else
+                                        "Funda futhi ulalele le ndaba",
+                                    fontSize = 12.sp,
+                                    color = Color(0xFF547087)
+                                )
+                            }
+                            Icon(
+                                Icons.Default.PlayArrow,
+                                contentDescription = "Open story",
+                                tint = Coral,
+                                modifier = Modifier.size(30.dp)
+                            )
+                        }
+                    }
+                }
+            }
+        } else {
+            val story = stories[selectedStory]
+            val storyPages = if (language == "English")
+                story.englishPages else story.isiZuluPages
+
+            Text(
+                story.emoji,
+                fontSize = 48.sp,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                if (language == "English")
+                    story.englishTitle else story.isiZuluTitle,
+                fontSize = 21.sp,
+                fontWeight = FontWeight.Bold,
+                color = Navy,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(Modifier.height(12.dp))
+
+            Card(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                shape = RoundedCornerShape(22.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                )
+            ) {
+                Column(
+                    Modifier.fillMaxSize().padding(20.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        "Page ${page + 1} of ${storyPages.size}",
+                        color = Teal,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Spacer(Modifier.height(20.dp))
+
+                    Text(
+                        storyPages[page],
+                        fontSize = 21.sp,
+                        lineHeight = 30.sp,
+                        color = Navy,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(12.dp))
+
+            Button(
+                onClick = {
+                    if (!ttsReady) {
+                        voiceMessage = "Voice is loading. Please try again."
+                    } else {
+                        val locale = if (language == "English")
+                            Locale.US else Locale("zu", "ZA")
+                        val result = tts.setLanguage(locale)
+
+                        if (result == TextToSpeech.LANG_MISSING_DATA ||
+                            result == TextToSpeech.LANG_NOT_SUPPORTED
+                        ) {
+                            voiceMessage =
+                                if (language == "English")
+                                    "English voice is not available on this phone."
+                                else
+                                    "IsiZulu voice is not installed on this phone."
+                        } else {
+                            voiceMessage = ""
+                            tts.speak(
+                                storyPages[page],
+                                TextToSpeech.QUEUE_FLUSH,
+                                null,
+                                "story_page"
+                            )
+                        }
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Teal
+                )
+            ) {
+                Text(
+                    if (language == "English")
+                        "🔊 Listen to this page"
+                    else
+                        "🔊 Lalela leli khasi"
+                )
+            }
+
+            OutlinedButton(
+                onClick = {
+                    tts.stop()
+                    voiceMessage = ""
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("■ Stop narration")
+            }
+
+            if (voiceMessage.isNotBlank()) {
+                Text(
+                    voiceMessage,
+                    color = Coral,
+                    fontSize = 12.sp,
+                    textAlign = TextAlign.Center
+                )
+            }
+
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                OutlinedButton(
+                    onClick = {
+                        if (page > 0) {
+                            tts.stop()
+                            page--
+                        }
+                    },
+                    enabled = page > 0,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("Previous")
+                }
+
+                Button(
+                    onClick = {
+                        tts.stop()
+                        if (page < storyPages.lastIndex) {
+                            page++
+                        } else {
+                            page = 0
+                        }
+                    },
+                    modifier = Modifier.weight(1f),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Teal
+                    )
+                ) {
+                    Text(
+                        if (page == storyPages.lastIndex)
+                            "Read again"
+                        else
+                            "Next page"
+                    )
                 }
             }
         }
-        Text("These are story placeholders. Narrated clips must be added before they can play.",
-            color = Color(0xFF547087), fontSize = 12.sp)
     }
 }
 
