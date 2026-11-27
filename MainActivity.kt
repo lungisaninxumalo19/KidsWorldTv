@@ -1790,3 +1790,249 @@ private fun VideoPlayer(videoUrl: String) {
         update = { view -> view.player = player }
     )
 }
+
+
+@Composable
+private fun AboutScreen(language: String, onBack: () -> Unit) {
+    val isZulu = language == "IsiZulu"
+
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(20.dp)
+    ) {
+        TextButton(onClick = onBack) {
+            Text(
+                if (isZulu) "← Buyela emuva" else "← Back",
+                color = Navy
+            )
+        }
+
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            contentPadding = PaddingValues(bottom = 24.dp)
+        ) {
+            item {
+                Text(
+                    "🌟 Kids World TV",
+                    fontSize = 27.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Navy
+                )
+                Text(
+                    "Big fun. Bright minds.",
+                    fontSize = 16.sp,
+                    color = Teal
+                )
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Mayelana Nathi" else "About Us",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            if (isZulu)
+                                "I-Kids World TV iwuhlelo lokufundisa nokujabulisa izingane ngamavidiyo, izindaba, izilimi, izinombolo, imibala, imvelo nesayensi."
+                            else
+                                "Kids World TV is an educational entertainment app designed to help children learn through fun videos, stories, language activities, numbers, colours, nature and science.",
+                            color = Navy,
+                            fontSize = 15.sp
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Esingakufunda" else "What Children Can Learn",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Spacer(Modifier.height(8.dp))
+
+                        val topics = if (isZulu) listOf(
+                            "• Izinhlamvu nokufunda",
+                            "• Izinombolo nezibalo",
+                            "• Imibala nezimo",
+                            "• Izilwane nemvelo",
+                            "• Isimiso sonozungezilanga",
+                            "• Isichazamazwi nokubiza amagama",
+                            "• Izindaba zokufunda"
+                        ) else listOf(
+                            "• ABC and reading",
+                            "• Numbers and mathematics",
+                            "• Colours and shapes",
+                            "• Animals and nature",
+                            "• Our solar system",
+                            "• Dictionary and pronunciation",
+                            "• Educational stories"
+                        )
+
+                        topics.forEach {
+                            Text(it, color = Navy, fontSize = 15.sp)
+                        }
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Izilimi" else "Languages",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Text(
+                            "🇬🇧 English",
+                            color = Navy
+                        )
+                        Text(
+                            "🇿🇦 IsiZulu",
+                            color = Navy
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Ulwazi Lwabazali" else "Parent Information",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            if (isZulu)
+                                "Abazali nababheki bayakhuthazwa ukuba baqondise izingane lapho zisebenzisa lolu hlelo."
+                            else
+                                "Parents and guardians are encouraged to guide children while they use the app. Please review content and supervise microphone activities.",
+                            color = Navy,
+                            fontSize = 14.sp
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Uhlobo Lohlelo" else "App Information",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Text("Kids World TV", color = Navy)
+                        Text("Version: 0.1.0", color = Navy)
+                        Text(
+                            "Package: com.kidsworldtv.app",
+                            color = Navy,
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Usizo Nokuxhumana" else "Help & Support",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            "kidsworldtv@gmail.com",
+                            color = Teal,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            if (isZulu)
+                                "Ikheli le-imeyili elihlongozwayo. Kufanele lidalwe ngaphambi kokushicilela uhlelo."
+                            else
+                                "Proposed support email. Please create this Gmail account before publishing the app.",
+                            color = Color(0xFF547087),
+                            fontSize = 12.sp
+                        )
+                    }
+                }
+            }
+
+            item {
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text(
+                            if (isZulu) "Inqubomgomo Yobumfihlo" else "Privacy Policy",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Navy
+                        )
+                        Text(
+                            if (isZulu)
+                                "Isixhumanisi senqubomgomo yobumfihlo sizongezwa ngaphambi kokushicilela ku-Google Play."
+                            else
+                                "Our privacy policy link will be added before the Google Play release.",
+                            color = Navy,
+                            fontSize = 14.sp
+                        )
+                    }
+                }
+            }
+
+            item {
+                Text(
+                    "© Kids World TV",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center,
+                    color = Color(0xFF547087),
+                    fontSize = 13.sp
+                )
+            }
+        }
+    }
+}
+com.kidsworldtv.app
