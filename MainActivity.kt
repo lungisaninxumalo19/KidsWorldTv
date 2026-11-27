@@ -248,13 +248,10 @@ private fun KidsWorldApp() {
     ) {
         Surface(Modifier.fillMaxSize(), color = Sky) {
             when {
-                section == "Dictionary" -> DictionaryScreen(language) { section = "" }
-                section == "Story Time" -> StoryTimeScreen(language) { section = "" }
-                section == "Speak & Pronounce" -> SpeakScreen(language) { section = "" }
-                selectedLesson != null -> LessonScreen(
-                    lesson = selectedLesson!!,
-                    language = language,
-                    onBack = { selectedLesson = null }
+    section == "About" -> AboutScreen(language) { section = "" }
+    section == "Dictionary" -> DictionaryScreen(language) { section = "" }
+    section == "Story Time" -> StoryTimeScreen(language) { section = "" }
+    section == "Speak & Pronounce" -> SpeakScreen(language) { section = "" }
                 )
                 showParentGate -> ParentGate(
                     onCancel = { showParentGate = false },
