@@ -252,7 +252,24 @@ private fun KidsWorldApp() {
     section == "Dictionary" -> DictionaryScreen(language) { section = "" }
     section == "Story Time" -> StoryTimeScreen(language) { section = "" }
     section == "Speak & Pronounce" -> SpeakScreen(language) { section = "" }
-                )
+
+    showParentGate -> ParentGate(
+        onCancel = { showParentGate = false },
+        onUnlock = {
+            parentUnlocked = true
+            showParentGate = false
+        }
+    )
+
+    parentUnlocked -> ParentScreen { parentUnlocked = false }
+
+    selectedLesson != null -> LessonScreen(
+        lesson = selectedLesson!!,
+        language = language,
+        onBack = { selectedLesson = null }
+    )
+
+    else -> {
                 showParentGate -> ParentGate(
                     onCancel = { showParentGate = false },
                     onUnlock = { parentUnlocked = true; showParentGate = false }
