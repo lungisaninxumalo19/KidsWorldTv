@@ -337,7 +337,7 @@ private fun KidsWorldApp() {
                                     fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Navy
                                 )
                                 Spacer(Modifier.height(8.dp))
-    listOf(
+                 listOf(
     "📖  My Dictionary" to "Dictionary",
     "🎬  Story Time" to "Story Time",
     "🗣️  Speak & Pronounce" to "Speak & Pronounce",
