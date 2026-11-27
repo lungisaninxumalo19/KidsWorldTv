@@ -638,6 +638,254 @@ if (isCounting) {
     }
 }
 
+@Composable
+fun CountingPracticeScreen(
+    lesson: Lesson,
+    language: String,
+    onBack: () -> Unit
+) {
+    val modes = listOf(
+        "1–10", "11–20", "21–50", "51–100",
+        "2s", "5s", "10s", "Addition"
+    )
+
+    var selectedMode by remember(lesson.title) {
+        mutableStateOf("1–10")
+    }
+    var page by remember(selectedMode) {
+        mutableIntStateOf(0)
+    }
+
+    val additions = listOf(
+        Triple("1 + 1", "🍎 + 🍎", "2"),
+        Triple("2 + 1", "🐥 🐥 + 🐥", "3"),
+        Triple("2 + 2", "⭐ ⭐ + ⭐ ⭐", "4"),
+        Triple("3 + 2", "🍓 🍓 🍓 + 🍓 🍓", "5"),
+        Triple("4 + 2", "🦋 🦋 🦋 🦋 + 🦋 🦋", "6"),
+        Triple("5 + 2", "🌼 🌼 🌼 🌼 🌼 + 🌼 🌼", "7"),
+        Triple("4 + 4", "🎈 🎈 🎈 🎈 + 🎈 🎈 🎈 🎈", "8"),
+        Triple("5 + 4", "🚗 🚗 🚗 🚗 🚗 + 🚗 🚗 🚗 🚗", "9"),
+        Triple("5 + 5", "🌟 🌟 🌟 🌟 🌟 + 🌟 🌟 🌟 🌟 🌟", "10"),
+        Triple("10 + 5", "🍊 10 + 🍊 5", "15")
+    )
+
+    val slides: List<Triple<String, String, String>> =
+        when (selectedMode) {
+            "1–10" -> listOf(
+                Triple("1", "🍎", "ONE apple"),
+                Triple("2", "🐥 🐥", "TWO little chicks"),
+                Triple("3", "⭐ ⭐ ⭐", "THREE stars"),
+                Triple("4", "🦋 🦋 🦋 🦋", "FOUR butterflies"),
+                Triple("5", "🌼 🌼 🌼 🌼 🌼", "FIVE flowers"),
+                Triple("6", "🐠 🐠 🐠 🐠 🐠 🐠", "SIX fish"),
+                Triple("7", "🎈 🎈 🎈 🎈 🎈 🎈 🎈", "SEVEN balloons"),
+                Triple("8", "🍓 🍓 🍓 🍓 🍓 🍓 🍓 🍓", "EIGHT strawberries"),
+                Triple("9", "🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗 🚗", "NINE cars"),
+                Triple("10", "🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟 🌟", "TEN bright stars")
+            ).map {
+                Triple(
+                    it.first,
+                    it.second,
+                    if (language == "IsiZulu") "Bala nami!" else it.third
+                )
+            }
+
+            "11–20" -> (11..20).map {
+                Triple(
+                    it.toString(),
+                    "⭐ × $it",
+                    if (language == "IsiZulu") "Bala nami!" else "Count with me!"
+                )
+            }
+
+            "21–50" -> (21..50).map {
+                Triple(
+                    it.toString(),
+                    "🌟 × $it",
+                    if (language == "IsiZulu") "Bala nami!" else "Count with me!"
+                )
+            }
+
+            "51–100" -> (51..100).map {
+                Triple(
+                    it.toString(),
+                    "🎈 × $it",
+                    if (language == "IsiZulu") "Bala nami!" else "Count with me!"
+                )
+            }
+
+            "2s" -> (2..20 step 2).map {
+                Triple(it.toString(), "⭐ × $it", "Count by twos!")
+            }
+
+            "5s" -> (5..50 step 5).map {
+                Triple(it.toString(), "🌼 × $it", "Count by fives!")
+            }
+
+            "10s" -> (10..100 step 10).map {
+                Triple(it.toString(), "🎈 × $it", "Count by tens!")
+            }
+
+            else -> additions.map {
+                Triple(
+                    it.first,
+                    it.second,
+                    if (language == "IsiZulu")
+                        "Impendulo: ${it.third}"
+                    else
+                        "Answer: ${it.third}"
+                )
+            }
+        }
+
+    val slide = slides[page]
+
+    val narration = when {
+        selectedMode == "1–10" -> lessonNarration(lesson, page)
+
+        selectedMode == "Addition" -> Pair(
+            "${slide.first}. The answer is ${slide.third}.",
+            "${slide.first}. Impendulo ngu-${slide.third}."
+        )
+
+        else -> Pair(
+            "Number ${slide.first}. Count with me!",
+            "Inombolo ${slide.first}. Bala nami!"
+        )
+    }
+
+    Column(
+        Modifier.fillMaxSize().padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TextButton(
+            onClick = onBack,
+            modifier = Modifier.align(Alignment.Start)
+        ) {
+            Text(
+                if (language == "English") "← Back to lessons"
+                else "← Buyela ezifundweni",
+                color = Navy
+            )
+        }
+
+        Text(
+            if (language == "English") "Counting & Maths"
+            else "Ukubala Nezibalo",
+            fontSize = 23.sp,
+            fontWeight = FontWeight.ExtraBold,
+            color = Navy
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        modes.chunked(4).forEach { group ->
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
+                group.forEach { mode ->
+                    val label = when (mode) {
+                        "2s" -> if (language == "English") "By 2s" else "Ngo-2"
+                        "5s" -> if (language == "English") "By 5s" else "Ngo-5"
+                        "10s" -> if (language == "English") "By 10s" else "Ngo-10"
+                        "Addition" -> if (language == "English") "Add" else "Hlanganisa"
+                        else -> mode
+                    }
+
+                    FilterChip(
+                        selected = selectedMode == mode,
+                        onClick = { selectedMode = mode },
+                        modifier = Modifier.weight(1f),
+                        label = { Text(label, fontSize = 11.sp) }
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(6.dp))
+
+        LessonNarratorControls(narration.first, narration.second)
+
+        Spacer(Modifier.height(8.dp))
+
+        Card(
+            Modifier.fillMaxWidth().weight(1f),
+            shape = RoundedCornerShape(26.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFFFFF2CC)
+            )
+        ) {
+            Column(
+                Modifier.fillMaxSize().padding(12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(
+                    slide.first,
+                    fontSize = 62.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = Navy
+                )
+
+                Spacer(Modifier.height(12.dp))
+
+                Text(
+                    slide.second,
+                    fontSize = 30.sp,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(Modifier.height(12.dp))
+
+                Text(
+                    slide.third,
+                    fontSize = 21.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Navy,
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            "Slide ${page + 1} of ${slides.size}",
+            color = Navy,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            OutlinedButton(
+                onClick = { if (page > 0) page-- },
+                enabled = page > 0,
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Previous")
+            }
+
+            Button(
+                onClick = {
+                    if (page < slides.lastIndex) page++
+                    else page = 0
+                },
+                modifier = Modifier.weight(1f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Teal
+                )
+            ) {
+                Text(
+                    if (page == slides.lastIndex) "Start again"
+                    else "Next"
+                )
+            }
+        }
+    }
+}
 
 @Composable
 private fun DictionaryScreen(language: String, onBack: () -> Unit) {
