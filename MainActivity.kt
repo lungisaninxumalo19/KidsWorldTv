@@ -615,8 +615,8 @@ if (isCounting) {
             LessonNarratorControls(narration.first, narration.second)
             Spacer(Modifier.height(12.dp))
             Text(
-                if (language == "IsiZulu") when (lesson.title) {
-                    "Meet the Alphabet: A to Z" -> "Buka, yisho futhi ufunde izinhlamvu kusukela ku-A kuye ku-Z."
+                if (language == "IsiZulu") when  (lesson.title) {
+                    "Meet the Alphabet: A to Z" "About" -> "ℹ️  Mayelana Nohlelo Lokusebenza"-> "Buka, yisho futhi ufunde izinhlamvu kusukela ku-A kuye ku-Z."
                     "Amazing Animals" -> "Hlangana nezilwane ufunde ngezindawo ezihlala kuzo."
                     "Our Solar System" -> "Thatha uhambo olufushane lokufunda ngesimiso sonozungezilanga."
                     "Shapes Hunt" -> "Thola imibuthano, izikwele, onxantathu nezinye izimo."
