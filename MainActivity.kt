@@ -634,47 +634,336 @@ private fun LessonScreen(lesson: Lesson, language: String, onBack: () -> Unit) {
     }
 }
 
+
 @Composable
 private fun DictionaryScreen(language: String, onBack: () -> Unit) {
-    val words = listOf(
-        Triple("Apple", "A round fruit that grows on a tree.", "I-apula"),
-        Triple("Book", "A set of pages with writing or pictures.", "Incwadi"),
-        Triple("Cat", "A small animal that says meow.", "Ikati"),
-        Triple("Dog", "An animal that can be a friendly pet.", "Inja"),
-        Triple("Friend", "A person you like and enjoy spending time with.", "Umngane"),
-        Triple("Happy", "Feeling glad or pleased.", "Ukujabula"),
-        Triple("School", "A place where children learn.", "Isikole"),
-        Triple("Water", "The clear liquid we drink.", "Amanzi")
+    data class Word(
+        val category: String,
+        val english: String,
+        val meaning: String,
+        val isiZulu: String
     )
-    var query by remember { mutableStateOf("") }
-    Column(Modifier.fillMaxSize().padding(18.dp)) {
-        TextButton(onClick = onBack) { Text("← Back", color = Navy) }
-        Text(if (language == "English") "My English Dictionary" else "Isichazamazwi sesiNgisi",
-            fontSize = 25.sp, fontWeight = FontWeight.Bold, color = Navy)
-        Text(if (language == "English") "English meanings with IsiZulu translations"
-            else "Izincazelo zesiNgisi nezihumusho zesiZulu", color = Color(0xFF547087))
-        OutlinedTextField(
-            value = query, onValueChange = { query = it },
-            modifier = Modifier.fillMaxWidth(),
-            label = { Text("Find a word / Thola igama") }, singleLine = true
+
+    val words = listOf(
+        // ANIMALS (17)
+        Word("Animals", "Apple", "A round fruit that grows on a tree.", "I-apula"),
+        Word("Animals", "Cat", "A small animal that says meow.", "Ikati"),
+        Word("Animals", "Dog", "A friendly animal often kept as a pet.", "Inja"),
+        Word("Animals", "Lion", "A large wild cat called the king of animals.", "Ibhubesi"),
+        Word("Animals", "Elephant", "A very large animal with a long trunk.", "Indlovu"),
+        Word("Animals", "Bird", "An animal with feathers and wings.", "Inyoni"),
+        Word("Animals", "Fish", "An animal that lives in water.", "Inhlanzi"),
+        Word("Animals", "Cow", "A farm animal that gives us milk.", "Inkomo"),
+        Word("Animals", "Horse", "An animal people can ride.", "Ihhashi"),
+        Word("Animals", "Sheep", "A farm animal covered in wool.", "Imvu"),
+        Word("Animals", "Goat", "A farm animal that likes to eat leaves.", "Imbuzi"),
+        Word("Animals", "Monkey", "An animal that climbs trees.", "Inkawu"),
+        Word("Animals", "Rabbit", "A small animal with long ears.", "Unogwaja"),
+        Word("Animals", "Giraffe", "A tall animal with a very long neck.", "Indlulamithi"),
+        Word("Animals", "Snake", "A long animal with no legs.", "Inyoka"),
+        Word("Animals", "Duck", "A bird that swims in water.", "Idada"),
+        Word("Animals", "Butterfly", "A colourful insect with beautiful wings.", "Uvemvane"),
+
+        // HOME (17)
+        Word("Home", "House", "A building where people live.", "Indlu"),
+        Word("Home", "Door", "Something we open to enter a room.", "Umnyango"),
+        Word("Home", "Window", "An opening that lets light into a room.", "Iwindi"),
+        Word("Home", "Chair", "Something we sit on.", "Isihlalo"),
+        Word("Home", "Table", "Furniture with a flat top.", "Itafula"),
+        Word("Home", "Bed", "Something we sleep on.", "Umbhede"),
+        Word("Home", "Kitchen", "A room where food is prepared.", "Ikhishi"),
+        Word("Home", "Room", "A space inside a house.", "Igumbi"),
+        Word("Home", "Roof", "The top covering of a house.", "Uphahla"),
+        Word("Home", "Floor", "The surface we walk on indoors.", "Iphansi"),
+        Word("Home", "Wall", "A structure that separates rooms.", "Udonga"),
+        Word("Home", "Cup", "A small container used for drinking.", "Inkomishi"),
+        Word("Home", "Plate", "A dish used for serving food.", "Ipuleti"),
+        Word("Home", "Spoon", "A tool used for eating or stirring.", "Isipuni"),
+        Word("Home", "Broom", "A tool used to sweep the floor.", "Umshanelo"),
+        Word("Home", "Blanket", "A warm covering used on a bed.", "Ingubo"),
+        Word("Home", "Light", "Something that helps us see.", "Ukukhanya"),
+
+        // FAMILY (16)
+        Word("Family", "Mother", "A female parent.", "Umama"),
+        Word("Family", "Father", "A male parent.", "Ubaba"),
+        Word("Family", "Baby", "A very young child.", "Usana"),
+        Word("Family", "Child", "A young boy or girl.", "Ingane"),
+        Word("Family", "Family", "People who are related to one another.", "Umndeni"),
+        Word("Family", "Brother", "A boy or man with the same parent as you.", "Umfowethu"),
+        Word("Family", "Sister", "A girl or woman with the same parent as you.", "Udadewethu"),
+        Word("Family", "Grandmother", "The mother of your mother or father.", "Ugogo"),
+        Word("Family", "Grandfather", "The father of your mother or father.", "Umkhulu"),
+        Word("Family", "Friend", "Someone you like and enjoy spending time with.", "Umngane"),
+        Word("Family", "Happy", "Feeling glad or pleased.", "Ukujabula"),
+        Word("Family", "Love", "A strong feeling of care and affection.", "Uthando"),
+        Word("Family", "Boy", "A male child.", "Umfana"),
+        Word("Family", "Girl", "A female child.", "Intombazane"),
+        Word("Family", "People", "More than one person.", "Abantu"),
+        Word("Family", "Baby sister", "A younger female sibling.", "Udadewethu omncane"),
+
+        // NATURE (17)
+        Word("Nature", "Sun", "The star that gives Earth light and warmth.", "Ilanga"),
+        Word("Nature", "Moon", "The object that shines in the night sky.", "Inyanga"),
+        Word("Nature", "Star", "A bright object in the night sky.", "Inkanyezi"),
+        Word("Nature", "Rain", "Water that falls from clouds.", "Imvula"),
+        Word("Nature", "Tree", "A tall plant with a trunk and branches.", "Isihlahla"),
+        Word("Nature", "Flower", "The colourful part of some plants.", "Imbali"),
+        Word("Nature", "Water", "The clear liquid we drink.", "Amanzi"),
+        Word("Nature", "River", "A natural stream of flowing water.", "Umfula"),
+        Word("Nature", "Sea", "A large area of salty water.", "Ulwandle"),
+        Word("Nature", "Mountain", "A very high area of land.", "Intaba"),
+        Word("Nature", "Cloud", "A white or grey shape in the sky.", "Ifu"),
+        Word("Nature", "Grass", "The green plants that cover the ground.", "Utshani"),
+        Word("Nature", "Leaf", "The flat green part of a plant.", "Iqabunga"),
+        Word("Nature", "Earth", "The planet where we live.", "Umhlaba"),
+        Word("Nature", "Wind", "Moving air that we can feel.", "Umoya"),
+        Word("Nature", "Sky", "The space above the Earth.", "Isibhakabhaka"),
+        Word("Nature", "Fire", "Heat and light produced by burning.", "Umlilo"),
+
+        // EVERYDAY (17)
+        Word("Everyday", "Book", "Pages with writing or pictures.", "Incwadi"),
+        Word("Everyday", "School", "A place where children learn.", "Isikole"),
+        Word("Everyday", "Food", "Things we eat to stay healthy.", "Ukudla"),
+        Word("Everyday", "Milk", "A white drink often from cows.", "Ubisi"),
+        Word("Everyday", "Bread", "A food made from flour.", "Isinkwa"),
+        Word("Everyday", "Car", "A vehicle with four wheels.", "Imoto"),
+        Word("Everyday", "Bus", "A large vehicle that carries passengers.", "Ibhasi"),
+        Word("Everyday", "Pencil", "A tool used for writing and drawing.", "Ipensela"),
+        Word("Everyday", "Pen", "A tool used for writing with ink.", "Ipeni"),
+        Word("Everyday", "Bag", "Something used to carry belongings.", "Isikhwama"),
+        Word("Everyday", "Shoes", "Things we wear on our feet.", "Izicathulo"),
+        Word("Everyday", "Clothes", "Things we wear on our bodies.", "Izingubo"),
+        Word("Everyday", "Ball", "A round object used for playing.", "Ibhola"),
+        Word("Everyday", "Phone", "A device used to communicate.", "Ucingo"),
+        Word("Everyday", "Clock", "Something that shows the time.", "Iwashi"),
+        Word("Everyday", "Money", "Something used to buy things.", "Imali"),
+        Word("Everyday", "Market", "A place where people buy and sell things.", "Imakethe"),
+
+        // COLOURS & OBJECTS (16)
+        Word("Colours & Objects", "Red", "The colour of many apples.", "Bomvu"),
+        Word("Colours & Objects", "Blue", "The colour of a clear sky.", "Luhlaza okwesibhakabhaka"),
+        Word("Colours & Objects", "Green", "The colour of fresh grass.", "Luhlaza"),
+        Word("Colours & Objects", "Yellow", "The colour of sunshine.", "Phuzi"),
+        Word("Colours & Objects", "Purple", "A colour like some grapes.", "Nsomi"),
+        Word("Colours & Objects", "Black", "A very dark colour.", "Mnyama"),
+        Word("Colours & Objects", "White", "The colour of clean snow.", "Mhlophe"),
+        Word("Colours & Objects", "Orange", "A colour like a ripe orange fruit.", "Owolintshi"),
+        Word("Colours & Objects", "Pink", "A light colour like some flowers.", "Obomvana"),
+        Word("Colours & Objects", "Brown", "A colour like tree bark.", "Nsundu"),
+        Word("Colours & Objects", "Circle", "A round shape with no corners.", "Indilinga"),
+        Word("Colours & Objects", "Square", "A shape with four equal sides.", "Isikwele"),
+        Word("Colours & Objects", "Triangle", "A shape with three sides.", "Unxantathu"),
+        Word("Colours & Objects", "Rectangle", "A shape with four sides.", "Unxande"),
+        Word("Colours & Objects", "Star", "A shape often drawn with five points.", "Inkanyezi"),
+        Word("Colours & Objects", "Heart", "A shape often used to show love.", "Inhliziyo")
+    )
+
+    var query by rememberSaveable { mutableStateOf("") }
+    var selectedCategory by rememberSaveable { mutableStateOf("All") }
+    var ttsReady by remember { mutableStateOf(false) }
+    var voiceMessage by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    val tts = remember {
+        TextToSpeech(context.applicationContext) { status ->
+            ttsReady = status == TextToSpeech.SUCCESS
+        }
+    }
+
+    DisposableEffect(tts) {
+        onDispose {
+            tts.stop()
+            tts.shutdown()
+        }
+    }
+
+    val categories = listOf(
+        "All", "Animals", "Home", "Family",
+        "Nature", "Everyday", "Colours & Objects"
+    )
+
+    val filteredWords = words.filter { word ->
+        (selectedCategory == "All" || word.category == selectedCategory) &&
+        (word.english.contains(query, true) ||
+         word.isiZulu.contains(query, true) ||
+         word.meaning.contains(query, true))
+    }
+
+    fun speakWord(word: String, isiZulu: Boolean) {
+        if (!ttsReady) {
+            voiceMessage = "Voice is loading. Please try again."
+            return
+        }
+
+        val locale = if (isiZulu) Locale("zu", "ZA") else Locale.US
+        val result = tts.setLanguage(locale)
+
+        if (result == TextToSpeech.LANG_MISSING_DATA ||
+            result == TextToSpeech.LANG_NOT_SUPPORTED) {
+            voiceMessage = if (isiZulu)
+                "IsiZulu voice is not available on this phone."
+            else
+                "English voice is not available on this phone."
+        } else {
+            voiceMessage = ""
+            tts.speak(word, TextToSpeech.QUEUE_FLUSH, null, "dictionary_word")
+        }
+    }
+
+    Column(
+        Modifier.fillMaxSize().padding(16.dp)
+    ) {
+        TextButton(onClick = onBack) {
+            Text("← Back", color = Navy)
+        }
+
+        Text(
+            if (language == "English") "📖 My English Dictionary"
+            else "📖 Isichazamazwi sesiNgisi",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Navy
         )
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(words.filter {
-                it.first.contains(query, true) || it.third.contains(query, true)
-            }) { word ->
-                Card(Modifier.fillMaxWidth(),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)) {
+
+        Text(
+            if (language == "English")
+                "Learn 100 English words with IsiZulu translations"
+            else
+                "Funda amagama esiNgisi ayi-100 nezihumusho zesiZulu",
+            color = Color(0xFF547087),
+            fontSize = 13.sp
+        )
+
+        Spacer(Modifier.height(10.dp))
+
+        OutlinedTextField(
+            value = query,
+            onValueChange = { query = it },
+            modifier = Modifier.fillMaxWidth(),
+            label = { Text("Search English or IsiZulu / Sesha") },
+            singleLine = true,
+            shape = RoundedCornerShape(14.dp)
+        )
+
+        Spacer(Modifier.height(8.dp))
+
+        Text(
+            "Choose a category / Khetha isigaba",
+            color = Navy,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp
+        )
+
+        categories.chunked(2).forEach { pair ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                pair.forEach { category ->
+                    FilterChip(
+                        selected = selectedCategory == category,
+                        onClick = { selectedCategory = category },
+                        label = {
+                            Text(
+                                if (language == "IsiZulu") when (category) {
+                                    "All" -> "Konke"
+                                    "Animals" -> "Izilwane"
+                                    "Home" -> "Ikhaya"
+                                    "Family" -> "Umndeni"
+                                    "Nature" -> "Imvelo"
+                                    "Everyday" -> "Nsuku zonke"
+                                    else -> "Imibala Nezinto"
+                                } else category,
+                                fontSize = 11.sp
+                            )
+                        }
+                    )
+                }
+            }
+        }
+
+        Spacer(Modifier.height(6.dp))
+
+        Text(
+            "${filteredWords.size} words found / Amagama atholakele",
+            color = Teal,
+            fontWeight = FontWeight.Bold,
+            fontSize = 13.sp
+        )
+
+        if (voiceMessage.isNotBlank()) {
+            Text(voiceMessage, color = Coral, fontSize = 12.sp)
+        }
+
+        LazyColumn(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(bottom = 12.dp)
+        ) {
+            items(filteredWords) { word ->
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    )
+                ) {
                     Column(Modifier.padding(14.dp)) {
-                        Text(word.first, fontSize = 21.sp, fontWeight = FontWeight.Bold, color = Teal)
-                        Text(word.second, color = Navy)
-                        Text("IsiZulu: ${word.third}", color = Color(0xFF547087),
-                            fontWeight = FontWeight.SemiBold)
+                        Text(
+                            word.english,
+                            fontSize = 21.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Teal
+                        )
+
+                        Text(
+                            word.meaning,
+                            color = Navy,
+                            fontSize = 14.sp
+                        )
+
+                        Spacer(Modifier.height(5.dp))
+
+                        Text(
+                            "IsiZulu: ${word.isiZulu}",
+                            color = Color(0xFF547087),
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
+                        )
+
+                        Spacer(Modifier.height(8.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Button(
+                                onClick = {
+                                    speakWord(word.english, false)
+                                },
+                                modifier = Modifier.weight(1f),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Teal
+                                )
+                            ) {
+                                Text("🇬🇧 English 🔊", fontSize = 11.sp)
+                            }
+
+                            Button(
+                                onClick = {
+                                    speakWord(word.isiZulu, true)
+                                },
+                                modifier = Modifier.weight(1f),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Coral
+                                )
+                            ) {
+                                Text("🇿🇦 IsiZulu 🔊", fontSize = 11.sp)
+                            }
+                        }
                     }
                 }
             }
         }
-        Text("Starter word list: we will expand this into a full A–Z dictionary.",
-            color = Color(0xFF547087), fontSize = 12.sp)
     }
 }
 
