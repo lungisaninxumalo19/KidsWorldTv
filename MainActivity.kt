@@ -369,7 +369,10 @@ private fun KidsWorldApp() {
                                             if (language == "IsiZulu") when (menuItem.second) {
                                                 "Dictionary" -> "📖  Isichazamazwi"
                                                 "Story Time" -> "🎬  Isikhathi Sezindaba"
-                                                else -> "🗣️  Khuluma Nokubiza Amagama"
+                                                
+                                             "Speak & Pronounce" -> "🗣️  Khuluma Nokubiza Amagama"
+"About" -> "ℹ️  Mayelana Nohlelo Lokusebenza"
+else -> menuItem.first
                                             } else menuItem.first,
                                             Modifier.padding(16.dp), color = Navy,
                                             fontWeight = FontWeight.Bold
