@@ -408,7 +408,24 @@ private fun KidsWorldApp() {
                                                         Text(emoji, fontSize = 24.sp)
                                                         Spacer(Modifier.height(4.dp))
                                                         Text(
-                                                            if (language == "IsiZulu") when (category) {
+    if (language == "IsiZulu") {
+        when (lesson.title) {
+            "Meet the Alphabet: A to Z" ->
+                "Buka, yisho futhi ufunde izinhlamvu kusukela ku-A kuye ku-Z."
+            "Amazing Animals" ->
+                "Hlangana nezilwane ufunde ngezindawo ezihlala kuzo."
+            "Our Solar System" ->
+                "Thatha uhambo olufushane lokufunda ngesimiso sonozungezilanga."
+            "Shapes Hunt" ->
+                "Thola imibuthano, izikwele, onxantathu nezinye izimo."
+            else -> lesson.description
+        }
+    } else {
+        lesson.description
+    },
+    fontSize = 17.sp,
+    color = Navy
+)
                                                                 "All" -> "Konke"
                                                                 "ABC & Reading" -> "Izinhlamvu Nokufunda"
                                                                 "Numbers & Maths" -> "Izinombolo Nezibalo"
